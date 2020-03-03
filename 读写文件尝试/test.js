@@ -45,12 +45,27 @@ class Functor {
   map(f) {
     return Functor.of(f(this._value))
   }
-  print() {
+  mapPrint(f) {
+    this._value = f(this._value)
+    this._print()
+    return this
+  }
+  reWriteValuePrint(val) {
+    this._value = val
+    this._print()
+    return this
+  }
+  _print() {
+    console.log(this._value)
+  }
+  print(val) {
+    this._value = val
     console.log(this._value)
     return Functor.of(this._value)
   }
 }
-class Maybe extends Functor {
+
+module.exports = class Maybe extends Functor {
   constructor(val) {
     super(val)
   }
@@ -66,7 +81,6 @@ class Maybe extends Functor {
     return this._isNothing() ? Maybe.of(null) : Maybe.of(f(this._value));
   }
 }
-
 
 
 // 正则表达式模块
@@ -120,14 +134,22 @@ h1 = function (arr) {
   }
 }
 
-let address = path.join(__dirname, 'test.txt')
-Maybe.of(address) // 录入文件地址
-  .map(readFileSync_curry) // 同步读取文件
-  .map(split_curry('\r\n')) // 划分每一行并转为数组
-  .print() // 打印
-  .map(h1) // 划分每一行并转为数组
-  // .map(h2) // 划分每一行并转为数组
-  .print() // 打印
+// 测试模块
+// let address = path.join(__dirname, 'test.txt')
+// Maybe.of(address) // 录入文件地址
+//   .map(readFileSync_curry) // 同步读取文件
+//   .map(split_curry('\r\n')) // 划分每一行并转为数组
+//   .print() // 打印
+//   .map(h1) // 划分每一行并转为数组
+//   // .map(h2) // 划分每一行并转为数组
+//   .print() // 打印
+
+
+
+
+
+
+
 
 // // 函数组合模块
 // let compose =
