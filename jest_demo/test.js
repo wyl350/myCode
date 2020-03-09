@@ -73,13 +73,51 @@ function compileAndroidCode() {
 test('compiling android goes as expected', () => {
   expect(compileAndroidCode).toThrow();
   expect(compileAndroidCode).toThrow(Error);
-
   // You can also use the exact error message or a regexp
   expect(compileAndroidCode).toThrow('you are using the wrong JDK');
   expect(compileAndroidCode).toThrow(/JDK/);
 });
 
+// 分组测试
+describe('true or false', () => {
+  it('should return true when input true', () => {
+    let result = 1;
+    expect(1).toBe(1);  // toBeTruthy 匹配器
+  })
+  test('should return false when input fasle', () => {
+    let result = 2;
+    expect(2).toBe(2);  // toBeFalsy 匹配器
+  })
+})
 
-// 二、Asynchronous(测试异步代码)
-// 针对三种情况：
-// Don't do this!
+
+
+
+
+
+// // 二、Asynchronous(测试异步代码)
+// // 针对三种情况：
+// // (一) 针对回调函数
+// const fs = require('fs');
+
+// function fetchData(callback) {
+//   fs.readFile('./ceshi2.md', 'utf-8', function (err, data) {
+//     callback(data);
+//   })
+// }
+
+// test('should return data when fetchData request success', (done) => {
+//   function callback(data) {
+//     console.log(data);
+//     expect(data).toEqual('peanut butter')
+//     done()
+//   }
+
+//   fetchData(callback);
+// });
+// 以上这一段代码真的是非常的失败，测试完全失败。针对回调函数的测试很失败。
+
+
+
+
+

@@ -1,25 +1,41 @@
 let
-  { curry, compose } = require('./js/ramda'),
+  { join } = require('path'),
+  { curry, currys, compose } = require('./js/myRamda'),
   ramda = require('./js/ramda'),
   {
-    readFileCurry,
-    renderFileCurry,
-    writeFileCurry,
+    readFile,
+    renderFile,
+    writeFile,
   } = require('./function.js'),
+
+
+  fileName = (dir, inputFile, outputFile) => {
+    let inputPath
+    let outputPath
+    inputFile = `${inputFile}.${dir}`
+    outputFile = `${outputFile}.${dir}`
+    if (inputFile === outputFile) return
+
+    inputPath = join(__dirname, dir, inputFile)
+    outputPath = join(__dirname, dir, outputFile)
+    return {
+      inputPath,
+      outputPath,
+    }
+  },
 
   writeFromPrototype = (
     outputPath,
     repalceJson,
     inputPath,
   ) => {
-    compose(writeFileCurry(outputPath), renderFileCurry(repalceJson), readFileCurry)(inputPath)
+    compose(writeFile(outputPath), renderFile(repalceJson), readFile)(inputPath)
   }
 
-writeFromPrototype = curry(writeFromPrototype)
+[fileName, writeFromPrototype] = currys(fileName, writeFromPrototype)
 
 module.exports = {
+  fileName, 
   writeFromPrototype,
 }
-// console.log(
-//   ramda.
-// );
+

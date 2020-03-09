@@ -1,17 +1,13 @@
 const
   { readFileSync, writeFileSync } = require('fs'),
   { render } = require('art-template'),
-  { curry } = require('./js/ramda.js')
+  { currys } = require('./js/myRamda.js')
 
-const
+let
   readFile = (inputPath) => {
     let content
     try {
       content = readFileSync(inputPath, 'utf8')
-      console.log({
-        massage: 'read file is completed.',
-        err: null,
-      });
     } catch (err) {
       console.log({
         massage: 'read file is not completed.',
@@ -33,10 +29,6 @@ const
   writeFile = (outputPath, contentRendered) => {
     try {
       writeFileSync(outputPath, contentRendered, 'utf8')
-      console.log({
-        massage: 'ok',
-        err: null,
-      });
     } catch (err) {
       console.log({
         massage: 'cannot find the output file.',
@@ -45,13 +37,15 @@ const
     }
   }
 
-const
-  readFileCurry = curry(readFile),
-  renderFileCurry = curry(renderFile),
-  writeFileCurry = curry(writeFile)
+
+[
+  readFile,
+  renderFile,
+  writeFile,
+] = currys(readFile, renderFile, writeFile)
 
 module.exports = {
-  readFileCurry,
-  renderFileCurry,
-  writeFileCurry,
+  readFile,
+  renderFile,
+  writeFile,
 }
